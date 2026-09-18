@@ -32,16 +32,28 @@ jobs:
          mkdir nova
          cd nova
          repo init -u https://github.com/BobbyLLM/NovaPlayerKids -b nova -m kids-v6_4_64.xml
-         # v6.4.64 pins prebuilt-opus to an orphaned but still fetchable release
-         # commit; repo cannot update its tracking ref for an unreachable branch
-         # object, so fetch that immutable release object explicitly after sync.
+         # v6.4.64 pins two prebuilt projects to orphaned but still fetchable
+         # release commits; repo cannot update tracking refs for unreachable
+         # branch objects, so fetch those immutable release objects explicitly.
+         repair_release_project() {
+           path="$1"
+           url="$2"
+           sha="$3"
+           mkdir -p "$path"
+           if [ ! -d "$path/.git" ]; then
+             git -C "$path" init
+             git -C "$path" remote add origin "$url"
+           fi
+           git -C "$path" fetch origin "$sha"
+           git -C "$path" checkout --detach "$sha"
+         }
          set +e
          repo sync -j 4
          sync_status=$?
          set -e
          if [ "$sync_status" -ne 0 ]; then
-           git -C native/prebuilt/opus fetch origin 27544063be93ee55c6ba58a2ebb32c106eb2e37b
-           git -C native/prebuilt/opus checkout --detach 27544063be93ee55c6ba58a2ebb32c106eb2e37b
+           repair_release_project native/prebuilt/opus https://github.com/nova-video-player/prebuilt-opus.git 27544063be93ee55c6ba58a2ebb32c106eb2e37b
+           repair_release_project native/prebuilt/ffmpeg https://github.com/nova-video-player/prebuilt-ffmpeg.git 6ba0e9340cf725bede2e2f29d30c290a2ab8130e
          fi
          repo forall -c 'actual=$(git rev-parse HEAD); printf "%s %s\n" "$REPO_PATH" "$actual"; test "$actual" = "$REPO_RREV"'
     - name: build
