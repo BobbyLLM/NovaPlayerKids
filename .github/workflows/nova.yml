@@ -2,6 +2,7 @@
 name: NOVA CI
 on:
   workflow_dispatch: {}
+  workflow_call: {}
   push:
     branches: [ nova ]
   pull_request:

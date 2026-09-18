@@ -1,0 +1,9 @@
+name: Nova Player Kids Release
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    uses: ./.github/workflows/nova.yml
+    secrets: inherit
