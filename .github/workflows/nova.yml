@@ -26,13 +26,13 @@ jobs:
       run: |
         curl https://storage.googleapis.com/git-repo-downloads/repo | sudo tee /usr/local/bin/repo > /dev/null
         sudo chmod a+x /usr/local/bin/repo
-    - name: retrieve full nova source
+    - name: retrieve pinned Nova Player Kids source
       run: |
          mkdir nova
          cd nova
-         repo init -u https://github.com/nova-video-player/aos-AVP -b nova -m v6_4.xml
-         repo sync -j 4
-         repo forall -c 'git checkout -t $REPO_REMOTE/$REPO_RREV'
+         repo init -u https://github.com/BobbyLLM/NovaPlayerKids -b nova -m kids-v6_4_64.xml
+         repo sync -j 4 --fail-fast
+         repo forall -c 'actual=$(git rev-parse HEAD); printf "%s %s\n" "$REPO_PATH" "$actual"; test "$actual" = "$REPO_RREV"'
     - name: build
       run: |
         cd nova/Video

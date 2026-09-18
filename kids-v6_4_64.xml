@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Nova Player Kids pinned baseline.
+  Source: nova-video-player/aos-AVP v6.4.64 release manifest.xml
+  Published: 2026-09-12T11:02:42Z
+  SHA-256: 77ab7046adc4a0d4b3d2caa3f0a7efce03001437e42dcc5d6942e4b6e44655a7
+-->
+<manifest>
+  <remote name="bobby" fetch="https://github.com/BobbyLLM/" />
+  <remote name="nova" fetch="https://github.com/nova-video-player/" />
+
+  <default remote="nova" />
+
+  <project path="AVP" name="aos-AVP" revision="9c5842b74ab180c99441ed23fdd5d508448388a7" remote="nova">
+    <copyfile src="Makefile" dest="Makefile" />
+  </project>
+
+  <project path="Video" name="aos-Video" revision="fd9076334973512df1025311fcddc890cd61e67c" remote="bobby" />
+  <project path="MediaLib" name="aos-MediaLib" revision="691e26ccc24d64c04eed08cc8d86e64747b9317a" remote="nova" />
+  <project path="FileCoreLibrary" name="aos-FileCoreLibrary" revision="c4b760c55102c72d45f68b0d16999fc1f4f013a7" remote="nova" />
+
+  <project path="native/audiocompress" name="aos-audiocompress" revision="3a3f9324d2550bd305060e1c52b803121ea09aad" remote="nova" />
+  <project path="native/avos" name="aos-avos" revision="2cf21c486c7bf244c49b78d2220197a6d75396dd" remote="nova" />
+  <project path="native/boost" name="aos-boost-android-builder" revision="43daa8621f4b74239d8fd52a545fe3344f0ff43c" remote="nova" />
+  <project path="native/dav1d-android-builder" name="dav1d-android-builder-nobin" revision="d6c1a350295aaf4458e698f681503e7b6a051d1a" remote="nova" />
+  <project path="native/ffmpeg-android-builder" name="ffmpeg-android-builder-nobin" revision="7d8da228b213bc13d2bbd9fc5fb69fa6ff1042a1" remote="nova" />
+  <project path="native/libmysofa-android-builder" name="libmysofa-android-builder" revision="dc97741d01fa3cee8c81312b24bb4414c3f85d5c" remote="nova" />
+  <project path="native/libnativehelper" name="aos-libnativehelper" revision="ab46fb536b594b25f93611ad7ef0f27b8fc24edb" remote="nova" />
+  <project path="native/libtorrent-android-builder" name="aos-libtorrent-android-builder" revision="f30c887f14eb61f7fe1dc1a7208610eebd251f59" remote="nova" />
+  <project path="native/libyuv" name="aos-libyuv" revision="650963473a2568eb81218f6e2703d3efaad6300e" remote="nova" />
+  <project path="native/openssl-android-builder" name="openssl-android-builder-nobin" revision="524a99ffdf139844d5817ec2fe94dc63a4277087" remote="nova" />
+  <project path="native/opus-android-builder" name="opus-android-builder-nobin" revision="72b91b1fa45fc036406e9a96d4d78bf5ce698a2c" remote="nova" />
+  <project path="native/torrentd" name="torrentd-nobin" revision="49bd6a6aeb783fae0089e04e2e84c50112acb5c3" remote="nova" />
+
+  <project path="native/prebuilt/dav1d" name="prebuilt-dav1d" revision="f89559d62f671881431146b94c4364e568a623c8" remote="nova" />
+  <project path="native/prebuilt/ffmpeg" name="prebuilt-ffmpeg" revision="6ba0e9340cf725bede2e2f29d30c290a2ab8130e" remote="nova" />
+  <project path="native/prebuilt/libmysofa" name="prebuilt-libmysofa" revision="adf0d8278382a631d67dc3764d62d6ceece3789b" remote="nova" />
+  <project path="native/prebuilt/openssl" name="prebuilt-openssl" revision="78631105380190806182d77943b5524e81609f65" remote="nova" />
+  <project path="native/prebuilt/opus" name="prebuilt-opus" revision="27544063be93ee55c6ba58a2ebb32c106eb2e37b" remote="nova" />
+  <project path="native/prebuilt/torrentd" name="prebuilt-torrentd" revision="4a516e32c5e57fa1305540e7b622ba5e39080abe" remote="nova" />
+</manifest>
