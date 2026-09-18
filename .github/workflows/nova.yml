@@ -68,12 +68,12 @@ jobs:
         mkdir -p "$RUNNER_TEMP/novaplayerkids"
         printf '%s' "$NPK_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/novaplayerkids/NovaPlayerKids-release.jks"
         cat > nova/Video/keystore.properties <<EOF
-storeFile=$RUNNER_TEMP/novaplayerkids/NovaPlayerKids-release.jks
-storeType=PKCS12
-storePassword=$NPK_KEYSTORE_PASSWORD
-keyAlias=$NPK_KEY_ALIAS
-keyPassword=$NPK_KEY_PASSWORD
-EOF
+         storeFile=$RUNNER_TEMP/novaplayerkids/NovaPlayerKids-release.jks
+         storeType=PKCS12
+         storePassword=$NPK_KEYSTORE_PASSWORD
+         keyAlias=$NPK_KEY_ALIAS
+         keyPassword=$NPK_KEY_PASSWORD
+         EOF
     - name: build signed universal APK
       run: |
         cd nova/Video
