@@ -15,7 +15,7 @@
     <copyfile src="Makefile" dest="Makefile" />
   </project>
 
-  <project path="Video" name="aos-Video" revision="fd9076334973512df1025311fcddc890cd61e67c" remote="bobby" />
+  <project path="Video" name="aos-Video" revision="f498bf5ca4e7de098a910f0d47846ef28495eab3" remote="bobby" />
   <project path="MediaLib" name="aos-MediaLib" revision="691e26ccc24d64c04eed08cc8d86e64747b9317a" remote="nova" />
   <project path="FileCoreLibrary" name="aos-FileCoreLibrary" revision="c4b760c55102c72d45f68b0d16999fc1f4f013a7" remote="nova" />
 

@@ -56,7 +56,44 @@ jobs:
            repair_release_project native/prebuilt/ffmpeg https://github.com/nova-video-player/prebuilt-ffmpeg.git 6ba0e9340cf725bede2e2f29d30c290a2ab8130e
          fi
          repo forall -c 'actual=$(git rev-parse HEAD); printf "%s %s\n" "$REPO_PATH" "$actual"; test "$actual" = "$REPO_RREV"'
-    - name: build
+    - name: configure Nova Player Kids signing
+      env:
+        NPK_KEYSTORE_B64: ${{ secrets.NPK_KEYSTORE_B64 }}
+        NPK_KEYSTORE_PASSWORD: ${{ secrets.NPK_KEYSTORE_PASSWORD }}
+        NPK_KEY_ALIAS: ${{ secrets.NPK_KEY_ALIAS }}
+        NPK_KEY_PASSWORD: ${{ secrets.NPK_KEY_PASSWORD }}
+      run: |
+        set +x
+        mkdir -p "$RUNNER_TEMP/novaplayerkids"
+        printf '%s' "$NPK_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/novaplayerkids/NovaPlayerKids-release.jks"
+        cat > nova/Video/keystore.properties <<EOF
+storeFile=$RUNNER_TEMP/novaplayerkids/NovaPlayerKids-release.jks
+storeType=PKCS12
+storePassword=$NPK_KEYSTORE_PASSWORD
+keyAlias=$NPK_KEY_ALIAS
+keyPassword=$NPK_KEY_PASSWORD
+EOF
+    - name: build signed universal APK
       run: |
         cd nova/Video
-        ./gradlew aNR
+        ./gradlew aNR -Puniversal
+        ./gradlew lint -Puniversal
+        universal=$(find build/outputs/apk -type f -iname '*universal*release*.apk' | head -n 1)
+        test -n "$universal"
+        mkdir -p "$GITHUB_WORKSPACE/artifacts"
+        cp "$universal" "$GITHUB_WORKSPACE/artifacts/NovaPlayerKids-v6.4.64-universal-release.apk"
+        sha256sum "$GITHUB_WORKSPACE/artifacts/NovaPlayerKids-v6.4.64-universal-release.apk"
+    - name: verify signed APK identity
+      run: |
+        apk="$GITHUB_WORKSPACE/artifacts/NovaPlayerKids-v6.4.64-universal-release.apk"
+        build_tools=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)
+        "$build_tools/aapt" dump badging "$apk" | tee "$RUNNER_TEMP/novaplayerkids/badging.txt"
+        grep -F "package: name='com.bobbyllm.novaplayerkids'" "$RUNNER_TEMP/novaplayerkids/badging.txt"
+        grep -F "application-label:'Nova Player Kids'" "$RUNNER_TEMP/novaplayerkids/badging.txt"
+        "$build_tools/apksigner" verify --verbose "$apk"
+    - name: upload signed universal APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: NovaPlayerKids-v6.4.64-universal-release
+        path: artifacts/NovaPlayerKids-v6.4.64-universal-release.apk
+        if-no-files-found: error
